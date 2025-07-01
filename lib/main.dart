@@ -10,6 +10,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,6 +23,8 @@ class MyApp extends StatelessWidget {
 }
 
 class WasteClassifierScreen extends StatefulWidget {
+  const WasteClassifierScreen({super.key});
+
   @override
   _WasteClassifierScreenState createState() => _WasteClassifierScreenState();
 }
@@ -174,168 +178,155 @@ class _WasteClassifierScreenState extends State<WasteClassifierScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Waste Classifier'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.green.shade50, Colors.white],
-          ),
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Waste Classifier'),
+      backgroundColor: Colors.green.shade700,
+      foregroundColor: Colors.white,
+      elevation: 0,
+    ),
+    body: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.green.shade100, Colors.white],
         ),
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                // Image Display Area
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.grey.shade300, width: 2),
-                      color: Colors.white,
-                    ),
-                    child: _image == null
-                        ? Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.delete_outline,
-                          size: 80,
-                          color: Colors.grey.shade400,
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          'Pilih gambar sampah\nuntuk diklasifikasi',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey.shade600,
-                          ),
-                        ),
-                      ],
-                    )
-                        : ClipRRect(
-                      borderRadius: BorderRadius.circular(14),
-                      child: Image.file(
-                        _image!,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 20),
-
-                // Result Display
-                Container(
+      ),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Image Display Area
+              Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                elevation: 4,
+                child: Container(
+                  height: 250,
                   width: double.infinity,
-                  padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade200,
-                        blurRadius: 8,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
+                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.grey.shade100,
                   ),
-                  child: _isLoading
-                      ? Column(
-                    children: [
-                      CircularProgressIndicator(color: Colors.green),
-                      SizedBox(height: 12),
-                      Text(
-                        'Menganalisis gambar...',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey.shade600,
+                  child: _image == null
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.photo_camera_back_outlined, size: 60, color: Colors.grey.shade400),
+                              SizedBox(height: 12),
+                              Text(
+                                'Unggah gambar sampah',
+                                style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+                              ),
+                            ],
+                          ),
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.file(_image!, fit: BoxFit.cover, width: double.infinity),
                         ),
-                      ),
-                    ],
-                  )
-                      : Text(
-                    _result ?? 'Silakan pilih gambar untuk memulai klasifikasi',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: _modelReady ? Colors.green.shade700 : Colors.grey.shade600,
-                    ),
-                  ),
                 ),
+              ),
 
-                SizedBox(height: 24),
+              SizedBox(height: 20),
 
-                // Action Buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _modelReady ? () => _pickImageFromSource(ImageSource.camera) : null,
-                        icon: Icon(Icons.camera_alt),
-                        label: Text('Kamera'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 2,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _modelReady ? () => _pickImageFromSource(ImageSource.gallery) : null,
-                        icon: Icon(Icons.photo_library),
-                        label: Text('Galeri'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 2,
-                        ),
-                      ),
+              // Result Display
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                width: double.infinity,
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.15),
+                      blurRadius: 12,
+                      offset: Offset(0, 4),
                     ),
                   ],
                 ),
+                child: _isLoading
+                    ? Column(
+                        children: [
+                          CircularProgressIndicator(color: Colors.green),
+                          SizedBox(height: 12),
+                          Text('Menganalisis gambar...', style: TextStyle(color: Colors.grey.shade600)),
+                        ],
+                      )
+                    : Text(
+                        _result ?? 'Silakan unggah gambar untuk klasifikasi',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: _modelReady ? Colors.green.shade700 : Colors.grey.shade600,
+                        ),
+                      ),
+              ),
 
-                SizedBox(height: 16),
+              SizedBox(height: 24),
 
-                // Info Text
-                Text(
-                  'Aplikasi ini mengklasifikasi sampah menjadi organik dan non-organik',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade500,
+              // Action Buttons
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _modelReady ? () => _pickImageFromSource(ImageSource.camera) : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue.shade600,
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        elevation: 3,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.camera_alt_outlined),
+                          SizedBox(width: 8),
+                          Text('Kamera'),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _modelReady ? () => _pickImageFromSource(ImageSource.gallery) : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green.shade600,
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        elevation: 3,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.photo_library_outlined),
+                          SizedBox(width: 8),
+                          Text('Galeri'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 16),
+
+              // Info Text
+              Text(
+                'Aplikasi ini mengklasifikasi gambar menjadi Organik atau Non-Organik.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+              ),
+            ],
           ),
         ),
       ),
-    );
-  }
-}
+    ),
+  );
+}}
