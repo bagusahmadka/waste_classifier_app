@@ -27,29 +27,28 @@ cd waste_classifier_app
 flutter pub get
 flutter run
 
-🧠 AI Model
-This app uses a custom-trained TensorFlow Lite model to classify different types of waste. The model is stored in the assets/model/ folder and was trained using the TrashNet Dataset.
+## 🧠 AI Model
+
+This app uses a custom-trained **TensorFlow Lite** model to classify different types of waste.  
+The model is stored in the `assets/model/` folder and was trained using the [TrashNet Dataset](https://researchdata.tuwien.ac.at/records/27k90-dvw73).
 
 The model classifies the following categories:
 
-Cardboard
+- 🟫 **Cardboard**
+- 🟦 **Glass**
+- ⚙️ **Metal**
+- 📄 **Paper**
+- 🧴 **Plastic**
+- 🗑️ **Trash** (Other/Uncategorized)
 
-Glass
+---
 
-Metal
+## 📚 Dataset & Reference
 
-Paper
+The AI model was trained using the **TrashNet Dataset**, which is publicly available via the TU Wien Research Data Repository.
 
-Plastic
-
-Trash (other)
-
-📚 Dataset & Reference
-This app’s AI model was trained using the TrashNet Dataset available on the TU Wien Research Data Repository:
-
-Dataset Title: TrashNet Dataset for Waste Classification
-Authors: Hendrik Göbel, Martin Hepp
-Publisher: TU Wien Research Data Repository
-DOI: 10.34726/2736
-Dataset URL: https://researchdata.tuwien.ac.at/records/27k90-dvw73
-
+- **Dataset Title**: *TrashNet Dataset for Waste Classification*  
+- **Authors**: Hendrik Göbel, Martin Hepp  
+- **Publisher**: TU Wien Research Data Repository  
+- **DOI**: [10.34726/2736](https://doi.org/10.34726/2736)  
+- **Dataset URL**: [https://researchdata.tuwien.ac.at/records/27k90-dvw73](https://researchdata.tuwien.ac.at/records/27k90-dvw73)
